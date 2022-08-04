@@ -19,6 +19,7 @@ import * as mapboxgl from 'mapbox-gl';
         border-radius: 5px;
         position: fixed;
         z-index: 999;
+        width: 400px;
       }
     `
   ]
@@ -38,18 +39,27 @@ export class ZoomRangeComponent implements AfterViewInit {
         center: [-72.905406595323, 5.759048607794546], // starting position [lng, lat] 
         zoom: this.zoomLevel, // starting zoom
       });
-      this.map.on('style.load', () => {
-    });
+
+      this.map.on('zoom', () => {
+        this.zoomLevel = this.map.getZoom();
+      });
+
+      this.map.on('zoomend', () => {
+        if (this.map.getZoom() > 18) {
+          this.map.zoomTo(18);
+        }
+      });
   }
 
   zoomOut() {
     this.map.zoomOut();
-    this.zoomLevel = this.map.getZoom();
   }
 
   zoomIn() {
     this.map.zoomIn();
-    this.zoomLevel = this.map.getZoom();
   }
 
+  zoomChanged(zoom: string) {
+    this.map.zoomTo(Number(zoom));
+  }
 }
