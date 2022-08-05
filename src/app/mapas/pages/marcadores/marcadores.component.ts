@@ -58,8 +58,11 @@ export class MarcadoresComponent implements AfterViewInit {
     //   .addTo(this.map);
   }
 
-  goToMarker() {
-
+  goToMarker(marker: mapboxgl.Marker) {
+    const center = marker.getLngLat();
+    this.map.flyTo({
+      center: center
+    });
   }
 
   addMarker() {
@@ -74,6 +77,14 @@ export class MarcadoresComponent implements AfterViewInit {
       .addTo(this.map);
 
     this.markers.push({ color, marker: newMarker });
+  }
+
+  saveMarkerInLocalStorage() {
+
+  }
+
+  readLocalStorage() {
+    
   }
 
 }
