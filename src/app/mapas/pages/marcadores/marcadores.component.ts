@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { ConnectableObservable } from 'rxjs';
 
 interface CustomMarker {
   color: string;
