@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import { ConnectableObservable } from 'rxjs';
 
 interface CustomMarker {
   color: string;
@@ -81,6 +82,10 @@ export class MarcadoresComponent implements AfterViewInit {
 
     this.markers.push({ color, marker: newMarker });
     this.saveMarkerInLocalStorage();
+
+    newMarker.on('dragend', () => {
+      this.saveMarkerInLocalStorage();
+    });
   }
 
   saveMarkerInLocalStorage() {
@@ -120,7 +125,16 @@ export class MarcadoresComponent implements AfterViewInit {
         marker: newMarker,
         color: item.color,
       });
+
+      newMarker.on('dragend', () => {
+        this.saveMarkerInLocalStorage();
+      });
     });
   }
 
+  deleteMarker(indice: number) {
+    this.markers[indice].marker!.remove();
+    this.markers.splice(indice, 1);
+    this.saveMarkerInLocalStorage();
+  }
 }
